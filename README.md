@@ -10,7 +10,7 @@ Interactively chat with your PDF documents using advanced language models and ve
 
 ## Demo
 
-![Demo Screenshot](demo_screenshot.png)  
+![Demo Screenshot](demo.png)
 _Upload a PDF and start chatting!_
 
 ## Getting Started
