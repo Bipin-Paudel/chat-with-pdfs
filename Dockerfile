@@ -1,24 +1,35 @@
-# Use the official lightweight Python image.
-# https://hub.docker.com/_/python
 FROM python:3.11-slim
 
-# Allow statements and log messages to immediately appear in the Knative logs
-ENV PYTHONUNBUFFERED True
+ENV PYTHONUNBUFFERED=True
+ENV APP_HOME=/app
+ENV HF_HOME=/tmp/hf_cache
+ENV TRANSFORMERS_CACHE=/tmp/hf_cache
+ENV SENTENCE_TRANSFORMERS_HOME=/tmp/sentence_transformers
 
-# Copy local code to the container image.
-ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY . ./
 
-# Install system dependencies
+# System dependencies (libgomp1 required by faiss-cpu)
 RUN apt-get update && apt-get install -y \
     libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install production dependencies.
+# Install CPU-only PyTorch first (much smaller image, no CUDA)
+RUN pip install --no-cache-dir torch==2.2.1 \
+    --index-url https://download.pytorch.org/whl/cpu
+
+# Install remaining dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Run the web service on container startup.
-# Use uvicorn to serve the FastAPI app.
-# Timeout is set to 0 to disable the timeouts of the workers to allow Cloud Run to handle instance scaling.
-CMD exec uvicorn app:app --host 0.0.0.0 --port $PORT --workers 1
+# Pre-download embedding model at build time (avoids cold-start timeout on Cloud Run)
+RUN python -c "\
+from sentence_transformers import SentenceTransformer; \
+import os; \
+os.makedirs('/tmp/hf_cache', exist_ok=True); \
+SentenceTransformer('all-MiniLM-L6-v2', cache_folder='/tmp/hf_cache'); \
+print('Model pre-downloaded successfully')"
+
+# Create pdfs directory
+RUN mkdir -p /app/pdfs
+
+CMD exec uvicorn app:app --host 0.0.0.0 --port ${PORT:-8080} --workers 1

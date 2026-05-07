@@ -2,10 +2,11 @@ fastapi==0.110.0
 uvicorn==0.27.1
 python-multipart==0.0.9
 langchain==0.1.12
-langchain-openai
+langchain-openai==0.0.8
 langchain-community==0.0.28
 langchain-text-splitters==0.0.1
 pypdf==4.1.0
-faiss-cpu
+faiss-cpu==1.7.4
 python-dotenv==1.0.1
-sentence-transformers
+sentence-transformers==2.4.0
+transformers==4.38.2

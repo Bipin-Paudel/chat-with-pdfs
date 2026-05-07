@@ -12,7 +12,7 @@ try:
         azure_deployment="gpt-5.4-mini",
         openai_api_version=api_version,
         azure_endpoint="https://skinpalai-resource.openai.azure.com/",
-        api_key=api_key
+        api_key=api_key,
     )
     res = embeddings.embed_query("test")
     print("Test success")

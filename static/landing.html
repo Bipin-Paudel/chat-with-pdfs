@@ -3,88 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatDoc AI | Intelligent PDF Analysis</title>
+    <title>ChatDoc AI — Intelligent PDF Assistant</title>
+    <meta name="description" content="Chat with your documents. Upload PDFs and get instant AI-powered answers.">
     <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
-    <link rel="stylesheet" href="/static/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #030712;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.2);
+            --text-1: #f9fafb;
+            --text-2: #9ca3af;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --grad: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-1);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .logo-text { font-family: 'Outfit', sans-serif; }
+
+        /* Background effects */
+        .glow {
+            position: fixed;
+            width: 60vw; height: 60vw;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            z-index: -1; pointer-events: none;
+        }
+        .glow-1 { top: -20vw; left: -10vw; }
+        .glow-2 { bottom: -20vw; right: -10vw; }
+
+        /* NAVBAR */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.5rem 5%;
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(3, 7, 18, 0.7);
+        }
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .logo img { width: 32px; height: 32px; flex-shrink: 0; }
+        .logo-text {
+            font-size: 1.25rem; font-weight: 800;
+            background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a { color: var(--text-2); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: 0.2s; }
+        .nav-links a:hover { color: var(--text-1); }
+        .btn-cta-sm {
+            background: var(--grad); color: white; padding: 0.6rem 1.2rem; border-radius: 0.75rem;
+            font-weight: 600; font-size: 0.85rem; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); transition: 0.2s;
+        }
+        .btn-cta-sm:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4); }
+
+        /* HERO */
+        .hero {
+            padding: 10rem 5% 5rem; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .badge {
+            background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2);
+            color: var(--accent); padding: 0.4rem 1rem; border-radius: 2rem;
+            font-size: 0.75rem; font-weight: 700; margin-bottom: 2rem;
+            letter-spacing: 0.05rem; text-transform: uppercase;
+        }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.1; max-width: 900px; margin-bottom: 1.5rem; }
+        .hero h1 span { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: var(--text-2); font-size: clamp(1rem, 2vw, 1.15rem); max-width: 600px; margin-bottom: 3rem; }
+        .hero-btns { display: flex; gap: 1rem; }
+        .btn-primary {
+            background: var(--grad); color: white; padding: 1rem 2.5rem; border-radius: 1rem;
+            font-weight: 700; text-decoration: none; font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-4px); box-shadow: 0 20px 45px rgba(99, 102, 241, 0.5); }
+
+        /* MOCKUP */
+        .mockup-container { width: 100%; max-width: 900px; margin: 4rem auto; position: relative; }
+        .mockup {
+            background: rgba(17, 24, 39, 0.8); border: 1px solid var(--glass-border);
+            border-radius: 1.5rem; overflow: hidden; backdrop-filter: blur(20px);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+        }
+        .mockup-header { background: rgba(255,255,255,0.03); padding: 1rem; border-bottom: 1px solid var(--glass-border); display: flex; gap: 0.5rem; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .red { background: #ff5f57; } .yellow { background: #febc2e; } .green { background: #28c840; }
+        .mockup-content { padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+        .msg { padding: 1rem 1.5rem; border-radius: 1rem; font-size: 0.9rem; max-width: 80%; line-height: 1.5; }
+        .msg-user { align-self: flex-end; background: var(--grad); color: white; border-bottom-right-radius: 0.2rem; }
+        .msg-ai { align-self: flex-start; background: var(--glass); border: 1px solid var(--glass-border); border-bottom-left-radius: 0.2rem; }
+
+        /* FEATURES */
+        .features { padding: 8rem 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .feat-card {
+            background: var(--glass); border: 1px solid var(--glass-border); padding: 2.5rem; border-radius: 1.5rem;
+            transition: 0.3s; position: relative; overflow: hidden;
+        }
+        .feat-card:hover { transform: translateY(-10px); border-color: rgba(99, 102, 241, 0.4); background: rgba(255,255,255,0.05); }
+        .feat-card i { font-size: 2rem; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.5rem; display: block; }
+        .feat-card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .feat-card p { color: var(--text-2); font-size: 0.95rem; }
+
+        /* FOOTER */
+        footer { padding: 4rem 5%; border-top: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; }
+        .footer-text { color: var(--text-2); font-size: 0.9rem; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
 </head>
-<body class="landing-body">
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">
-            <img src="/static/favicon.svg" alt="Logo" class="logo-img">
-            <span>ChatDoc AI</span>
-        </div>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <nav>
+        <a href="/" class="logo">
+            <img src="/static/favicon.svg" alt="ChatDoc AI Logo" width="32" height="32">
+            <span class="logo-text">ChatDoc AI</span>
+        </a>
         <div class="nav-links">
             <a href="#features">Features</a>
-            <a href="#how-it-works">How it Works</a>
-            <a href="/app" class="btn-primary-sm">Open App</a>
+            <a href="/app" class="btn-cta-sm">Get Started — Free</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <header class="hero">
-        <div class="hero-content">
-            <div class="badge">✨ </div>
-            <h1 class="hero-title">Talk to your documents. <br><span class="gradient-text">Unlock instant knowledge.</span></h1>
-            <p class="hero-subtitle">Stop reading hundreds of pages. Upload your PDFs and get immediate answers, summaries, and deep insights powered by advanced AI.</p>
-            <div class="hero-cta">
-                <a href="/app" class="btn-primary">Start Chatting Now <i class="fas fa-arrow-right"></i></a>
-                <p class="sub-cta">No credit card required. Free to try.</p>
+        <div class="badge">✨ Next-Gen Document AI</div>
+        <h1>Your documents, <span>now with a voice.</span></h1>
+        <p>Stop searching and start chatting. Upload any PDF and get immediate, cited answers powered by state-of-the-art AI. Completely free, forever.</p>
+        <div class="hero-btns">
+            <a href="/app" class="btn-primary">Try ChatDoc AI Now <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
+        </div>
+
+        <div class="mockup-container">
+            <div class="mockup">
+                <div class="mockup-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                </div>
+                <div class="mockup-content">
+                    <div class="msg msg-user">Can you summarize the main findings of this research paper?</div>
+                    <div class="msg msg-ai">Based on the uploaded document, the study concludes that neural networks with attention mechanisms achieve 15% higher accuracy on complex datasets compared to baseline models...</div>
+                    <div class="msg msg-user">What was the methodology used?</div>
+                    <div class="msg msg-ai">The researchers employed a randomized control trial across 10,000 samples, utilizing a cross-validation strategy mentioned on <strong>Page 12</strong>.</div>
+                </div>
             </div>
         </div>
-        
-        <!-- Abstract Visual Representation -->
-        <div class="hero-visual">
-            <div class="glass-mockup">
-                <div class="mockup-header">
-                    <div class="dots"><span></span><span></span><span></span></div>
-                </div>
-                <div class="mockup-body">
-                    <div class="mockup-msg ai">What is the main takeaway from the Q3 financial report?</div>
-                    <div class="mockup-msg user">Based on the uploaded PDF, the main takeaway is a 24% increase in recurring revenue, primarily driven by the new enterprise tier...</div>
-                </div>
-            </div>
     </header>
 
-    <!-- Features Section -->
-
-    <section id="features" class="features">
-        <div class="section-header">
-            <h2>Why choose ChatDoc AI?</h2>
-            <p>Designed for professionals who need answers fast.</p>
+    <section class="features" id="features">
+        <div class="feat-card">
+            <i class="fas fa-bolt"></i>
+            <h3>Instant Answers</h3>
+            <p>Get accurate information from your PDFs in seconds. No more skimming through hundreds of pages.</p>
         </div>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="icon-box"><i class="fas fa-tachometer-alt"></i></div>
-                <h3>Lightning Fast</h3>
-                <p>Powered by Google's state-of-the-art Gemini 1.5 Flash model for instantaneous responses.</p>
-            </div>
-            <div class="feature-card">
-                <div class="icon-box"><i class="fas fa-lock"></i></div>
-                <h3>Enterprise Security</h3>
-                <p>Your documents are processed securely and never used to train our models.</p>
-            </div>
-            <div class="feature-card">
-                <div class="icon-box"><i class="fas fa-brain"></i></div>
-                <h3>Deep Understanding</h3>
-                <p>Advanced vector search ensures the AI understands context, not just keywords.</p>
-            </div>
+        <div class="feat-card">
+            <i class="fas fa-shield-halved"></i>
+            <h3>Private & Secure</h3>
+            <p>Your data belongs to you. We don't store your documents permanently or use them for training.</p>
+        </div>
+        <div class="feat-card">
+            <i class="fas fa-quote-left"></i>
+            <h3>Citations Included</h3>
+            <p>Every answer comes with page references, so you can verify the facts instantly.</p>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="logo">
-                <img src="/static/favicon.svg" alt="Logo" class="logo-img">
-                <span>ChatDoc AI</span>
-            </div>
-            <p>&copy; 2026 ChatDoc AI. All rights reserved.</p>
-        </div>
+        <a href="/" class="logo">
+            <img src="/static/favicon.svg" alt="Logo" width="24" height="24">
+            <span class="logo-text" style="font-size: 1rem;">ChatDoc AI</span>
+        </a>
+        <div class="footer-text">&copy; 2026 ChatDoc AI Platform. All rights reserved.</div>
     </footer>
 </body>
 </html>

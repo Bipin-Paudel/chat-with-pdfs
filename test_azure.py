@@ -13,7 +13,7 @@ try:
         azure_deployment="text-embedding-ada-002",
         openai_api_version=api_version,
         azure_endpoint="https://skinpalai-resource.openai.azure.com/openai/v1/",
-        api_key=api_key
+        api_key=api_key,
     )
     res = embeddings1.embed_query("test")
     print("Test 1 success")
@@ -26,7 +26,7 @@ try:
         azure_deployment="text-embedding-ada-002",
         openai_api_version=api_version,
         azure_endpoint="https://skinpalai-resource.openai.azure.com/",
-        api_key=api_key
+        api_key=api_key,
     )
     res = embeddings2.embed_query("test")
     print("Test 2 success")
@@ -39,7 +39,7 @@ try:
         azure_deployment="text-embedding-3-small",
         openai_api_version=api_version,
         azure_endpoint="https://skinpalai-resource.openai.azure.com/",
-        api_key=api_key
+        api_key=api_key,
     )
     res = embeddings3.embed_query("test")
     print("Test 3 success")
@@ -49,11 +49,11 @@ except Exception as e:
 # Test LLM
 try:
     llm = AzureChatOpenAI(
-        azure_deployment="gpt-5.4-mini", # wait, maybe they meant gpt-4o-mini?
+        azure_deployment="gpt-5.4-mini",  # wait, maybe they meant gpt-4o-mini?
         openai_api_version=api_version,
         azure_endpoint="https://skinpalai-resource.openai.azure.com/",
         api_key=api_key,
-        temperature=0.3
+        temperature=0.3,
     )
     res = llm.invoke("hello")
     print("Test LLM success")
