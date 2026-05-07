@@ -45,10 +45,10 @@ async function fetchHealth() {
     const res = await fetch('/health');
     const data = await res.json();
     state.modelName = data.model || 'AI Model';
-    modelNameEl.textContent = state.modelName;
+    if (modelNameEl) modelNameEl.textContent = state.modelName;
     setStatus('active', 'active');
   } catch {
-    modelNameEl.textContent = 'Offline';
+    if (modelNameEl) modelNameEl.textContent = 'Offline';
     setStatus('error', 'offline');
   }
 }
@@ -420,8 +420,8 @@ function removeTyping(el) { if (el) el.remove(); }
 
 /* ── Status helpers ──────────────────────────────────────────── */
 function setStatus(state, label) {
-  statusDot.className = 'status-dot ' + state;
-  statusLabel.textContent = label;
+  if (statusDot) statusDot.className = 'status-dot ' + state;
+  if (statusLabel) statusLabel.textContent = label;
 }
 
 /* ── Scroll to bottom ────────────────────────────────────────── */
