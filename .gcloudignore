@@ -1,0 +1,13 @@
+.git
+.gitignore
+__pycache__
+venv
+.env
+pdfs
+demo.png
+streamlit.py
+main.py.bak
+README.md
+implementation_plan.md
+task.md
+walkthrough.md

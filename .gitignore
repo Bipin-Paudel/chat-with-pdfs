@@ -74,3 +74,16 @@ pdfs/
 
 # MacOS
 .DS_Store
+
+.env
+
+# Secret tokens and keys
+token.txt
+*.token
+*.key
+
+# Test files with potential secrets
+test_azure.py
+test_embed.py
+test_proxy.py
+test_*.py

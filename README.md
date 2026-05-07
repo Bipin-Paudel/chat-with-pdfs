@@ -1,92 +1,97 @@
-# Chat with PDFs
+# ChatDoc AI | Intelligent PDF Analysis 🚀
 
-Interactively chat with your PDF documents using advanced language models and vector search! This project leverages Streamlit for the UI, LangChain for document processing, and Ollama for LLM and embeddings.
+**ChatDoc AI** is a premium, production-ready web application that allows you to interactively chat with your PDF documents. Using Google Gemini 1.5 Flash and a custom FastAPI backend, it provides a fast, secure, and visually stunning experience for document intelligence.
 
-## Features
+![ChatDoc AI Demo](demo.png)
 
-- Upload a PDF and ask questions about its content.
-- Uses chunked document retrieval and semantic search for accurate answers.
-- Powered by local LLMs (Ollama) and FAISS vector store for fast similarity search.
+## ✨ Features
 
-## Demo
+-   **Premium UI/UX**: Custom-built with Vanilla HTML/CSS/JS featuring glassmorphism, smooth animations, and a sleek dark mode.
+-   **Intelligent Retrieval**: Uses LangChain and FAISS for high-performance semantic search within your documents.
+-   **Powered by Gemini**: Leverages Google Gemini 1.5 Flash for state-of-the-art reasoning and concise answers.
+-   **Cloud Native**: Fully containerized with Docker and ready for seamless deployment to Google Cloud Run.
+-   **FastAPI Backend**: A robust, high-performance API serving both the AI logic and the frontend.
 
-![Demo Screenshot](demo.png)
-_Upload a PDF and start chatting!_
+## 🛠️ Tech Stack
 
-## Getting Started
+-   **Frontend**: HTML5, CSS3 (Glassmorphism), Vanilla JavaScript
+-   **Backend**: FastAPI, Python 3.11
+-   **AI Framework**: LangChain
+-   **LLM & Embeddings**: Google Gemini 1.5 Flash
+-   **Vector Database**: FAISS
+-   **Deployment**: Docker, Google Cloud Run
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Python 3.8+
-- Ollama (for local LLM and embeddings)
-- Streamlit
+-   Python 3.11+
+-   Google Cloud SDK (`gcloud`)
+-   A Google Gemini API Key (get it from [Google AI Studio](https://aistudio.google.com/app/apikey))
 
-### Installation
+### Local Development
 
-1. Clone the repository:
+1.  Clone the repository and navigate to the project folder:
+    ```bash
+    git clone <repository-url>
+    cd chat-with-pdfs
+    ```
 
-   ```bash
-   git clone https://github.com/yourusername/chat-with-pdf.git
-   cd chat-with-pdf
-   ```
+2.  Create a virtual environment:
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
 
-2. (Recommended) Create and activate a virtual environment:
+3.  Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate
-   ```
+4.  Set up environment variables:
+    ```bash
+    cp .env.example .env
+    ```
+    Then edit `.env` and add your API keys:
+    - Get Google Gemini API Key from [Google AI Studio](https://aistudio.google.com/app/apikey)
+    - Or configure Azure OpenAI credentials if using Azure
 
-3. Install dependencies:
+5.  Run the application:
+    ```bash
+    python app.py
+    ```
+    
+6.  Visit `http://localhost:8080` in your browser.
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+## ☁️ Deployment to Google Cloud Run
 
-4. Make sure Ollama is running and the required model (`deepseek-r1:7b`) is available.
+Deploying to production is simple with the included Dockerfile. Run the following command:
 
-### Usage
+```bash
+gcloud run deploy chat-with-pdfs \
+  --source . \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --set-env-vars GOOGLE_API_KEY=YOUR_API_KEY
+```
 
-1. Start the Streamlit app:
+## 🔒 Security & Environment Variables
 
-   ```bash
-   streamlit run streamlit.py
-   ```
+⚠️ **IMPORTANT**: Never commit `.env`, `token.txt`, or any files containing API keys to version control.
 
-2. Open the provided local URL in your browser.
+- Use `.env.example` as a template for required environment variables
+- Create your own `.env` file locally (it's in `.gitignore`)
+- Always use environment variables for secrets, never hardcode them
+- Never push personal API keys, tokens, or credentials to GitHub
 
-3. Upload a PDF and start chatting!
+## 📂 Project Structure
 
-## Project Structure
+-   `app.py` — FastAPI application and API endpoints.
+-   `main.py` — Core AI logic (Gemini + LangChain).
+-   `static/` — Premium frontend assets (HTML, CSS, JS).
+-   `Dockerfile` — Container configuration for production.
+-   `requirements.txt` — Production dependencies.
 
-- `main.py` — Core logic for PDF loading, chunking, vector store, and LLM interaction.
-- `streamlit.py` — Streamlit UI for file upload and chat interface.
-- `requirements.txt` — Python dependencies.
-- `pdfs/` — Directory for uploaded PDFs.
-
-## How it Works
-
-- **PDF Upload:** User uploads a PDF via the web interface.
-- **Chunking & Embedding:** The PDF is split into chunks and embedded using Ollama.
-- **Vector Search:** FAISS is used to find the most relevant chunks for a user’s question.
-- **LLM Response:** The context is sent to a local LLM (Ollama) to generate a concise answer.
-
-## Dependencies
-
-- streamlit
-- langchain
-- langchain_core
-- langchain_community
-- langchain_ollama
-- pypdf
-- faiss-cpu
-
-## Acknowledgements
-
-- [LangChain](https://github.com/langchain-ai/langchain)
-- [Ollama](https://ollama.com/)
-- [Streamlit](https://streamlit.io/)
-
-## License
+## 📄 License
 
 MIT License

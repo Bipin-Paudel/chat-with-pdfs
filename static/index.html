@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatDoc AI | Workspace</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="/" class="logo" style="text-decoration: none;">
+                <img src="/static/favicon.svg" alt="Logo" class="logo-img">
+                <span>ChatDoc AI</span>
+            </a>
+            
+            <div class="upload-section">
+                <h3>Documents</h3>
+                <div class="upload-card" id="drop-zone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drop your PDF here</p>
+                    <span>or click to browse</span>
+                    <input type="file" id="file-input" accept=".pdf" hidden>
+                </div>
+                <div id="file-info" class="file-info hidden">
+                    <i class="fas fa-file-alt"></i>
+                    <span id="filename">document.pdf</span>
+                    <button id="remove-file"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <div class="dot" id="status-dot"></div>
+                    <span id="status-text">Ready to upload</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-area">
+            <header class="chat-header">
+                <div class="header-info">
+                    <h1 id="current-doc-title">Select a document to begin</h1>
+                    
+                </div>
+            </header>
+
+            <div class="messages-container" id="messages">
+                <div class="welcome-message">
+                    <div class="icon-circle">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h2>Welcome to ChatDoc AI</h2>
+                    <p>Upload a PDF document to start asking questions. I can help you summarize, extract information, or analyze complex data within your files.</p>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <input type="text" id="user-input" placeholder="Ask a question about your document..." disabled>
+                    <button id="send-btn" disabled>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
